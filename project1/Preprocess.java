@@ -1,4 +1,4 @@
-package Plan1;
+package project1;
 
 import java.io.File;
 import java.io.FileWriter;

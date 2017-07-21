@@ -1,4 +1,4 @@
-package Plan1;
+package project1;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -130,8 +130,8 @@ public class ImageProcess {
 		System.out.println("<Log Finish!>");
 	}
 	
-	public void LightenImage(int n) throws IOException {
-		System.out.println("<Lighten Start!>");
+	public void LinerLightenImage(int n) throws IOException {
+		System.out.println("<LinerLighten Start!>");
 		
 		int x = 0;
 		int y = 0;
@@ -155,7 +155,7 @@ public class ImageProcess {
 		File lighten = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Lighten.jpg");
 		ImageIO.write(bi,"jpg", lighten);
 		
-		System.out.println("<Lighten Finish!>");
+		System.out.println("<LinerLighten Finish!>");
 	}
 	
 	public void GreyImage() throws IOException {
@@ -165,6 +165,7 @@ public class ImageProcess {
 		int blue_num;
 		int green_num;
 		int red_num;
+		int grey;
 		
 		int x = 0;
 		int y = 0;
@@ -173,7 +174,21 @@ public class ImageProcess {
 			for(x=0; x<bi.getWidth(); x++) {		
 				//Image inverse processing
 				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
+				blue_num = (bi.getRGB(x, y) & 0x000000ff) >> 0;
+				green_num = (bi.getRGB(x, y) & 0x0000ff00) >> 8;
+				red_num = (bi.getRGB(x, y) & 0x00ff0000) >> 16;
+				grey =  (red_num*38 + green_num*75 + blue_num*15) >> 7;
+				bi.setRGB(x, y, grey+grey*0x100+grey*0x10000);
 			}
 		}
+		
+		File greyImage = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Greyed.jpg");
+		ImageIO.write(bi,"jpg", greyImage);
+		
+		System.out.println("<Grey Finish!>");
+	}
+	
+	public void SquareLightenImage() {
+		
 	}
 }

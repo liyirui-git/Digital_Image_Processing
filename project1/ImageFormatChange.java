@@ -7,7 +7,7 @@
  * */
 
 
-package Plan1;
+package project1;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -32,7 +32,8 @@ public class ImageFormatChange {
 		//IP.InverseImage();
 		//IP.SquareImage(0.99999);
 		//IP.LogImage();
-		IP.LightenImage(10);
+		//IP.LinerLightenImage(15);
+		IP.GreyImage();
 	
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		

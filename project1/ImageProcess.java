@@ -67,7 +67,7 @@ public class ImageProcess {
 		}
 	}
 	
-	public void InverseImage() throws IOException {
+	public void Inverse() throws IOException {
 		
 		System.out.println("<Inverse Start!>");
 		
@@ -88,28 +88,26 @@ public class ImageProcess {
 		System.out.println("<Inverse Finish!>");
 	}
 	
-	public void SquareImage(double n) throws IOException {
+	public void PowerTransform(double n) throws IOException {
 		
-		System.out.println("<Square Start!>");
+		System.out.println("<Power Start!>");
 		
 		int x = 0;
 		int y = 0;
 		
 		for(y=0; y<bi.getHeight(); y++) {
 			for(x=0; x<bi.getWidth(); x++) {		
-				//Image inverse processing
-				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
-				bi.setRGB(x, y, (int)Math.pow(bi.getRGB(x, y)-0xff000000,n)); //有效位其实为后六位
+				bi.setRGB(x, y, (int)Math.pow(bi.getRGB(x, y)-0xff000000,n)); 
 			}
 		}
 		
-		File square = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Squared.jpg");
-		ImageIO.write(bi,"jpg", square);
+		File Power = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Powerd.jpg");
+		ImageIO.write(bi,"jpg", Power);
 		
-		System.out.println("<Square Finish!>");
+		System.out.println("<Power Finish!>");
 	}
 	
-	public void LogImage() throws IOException {
+	public void LogTransform() throws IOException {
 		
 		System.out.println("<Log Start!>");
 		
@@ -118,9 +116,7 @@ public class ImageProcess {
 		
 		for(y=0; y<bi.getHeight(); y++) {
 			for(x=0; x<bi.getWidth(); x++) {		
-				//Image inverse processing
-				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
-				bi.setRGB(x, y, (int)Math.log(bi.getRGB(x, y)-0xff000000)); //有效位其实为后六位
+				bi.setRGB(x, y, (int)Math.log(bi.getRGB(x, y)-0xff000000)); 
 			}
 		}
 		
@@ -130,35 +126,7 @@ public class ImageProcess {
 		System.out.println("<Log Finish!>");
 	}
 	
-	public void LinerLightenImage(int n) throws IOException {
-		System.out.println("<LinerLighten Start!>");
-		
-		int x = 0;
-		int y = 0;
-		int num = 0;
-		
-		for(int i = 0; i<n; i++) {
-			num+=0x10101;
-		}
-		
-		for(y=0; y<bi.getHeight(); y++) {
-			for(x=0; x<bi.getWidth(); x++) {		
-				//Image inverse processing
-				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
-				if(bi.getRGB(x, y)+num>0xffffffff)
-					bi.setRGB(x, y, (int)0xffffffff); //有效位其实为后六位
-				else
-					bi.setRGB(x, y, bi.getRGB(x, y)+num);
-			}
-		}
-		
-		File lighten = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Lighten.jpg");
-		ImageIO.write(bi,"jpg", lighten);
-		
-		System.out.println("<LinerLighten Finish!>");
-	}
-	
-	public void GreyImage() throws IOException {
+	public void Greyed() throws IOException {
 		
 		System.out.println("<Greyed Start!>");
 		
@@ -172,8 +140,6 @@ public class ImageProcess {
 		
 		for(y=0; y<bi.getHeight(); y++) {
 			for(x=0; x<bi.getWidth(); x++) {		
-				//Image inverse processing
-				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
 				blue_num = (bi.getRGB(x, y) & 0x000000ff) >> 0;
 				green_num = (bi.getRGB(x, y) & 0x0000ff00) >> 8;
 				red_num = (bi.getRGB(x, y) & 0x00ff0000) >> 16;
@@ -188,7 +154,69 @@ public class ImageProcess {
 		System.out.println("<Grey Finish!>");
 	}
 	
-	public void SquareLightenImage() {
+	public void LinerGreyTransform(int n) throws IOException {
+		System.out.println("<Liner-Grey Start!>");
 		
+		int x = 0;
+		int y = 0;
+		int num = 0;
+		
+		Greyed();
+		
+		if(n>=0) {
+			for(int i = 0; i<n; i++) {
+				num+=0x10101;       //this make sure this is a Grey Transform
+			}
+		}else {
+			for(int i = 0; i<-n; i++) {
+				num-=0x10101;
+			}
+		}
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {		
+				if(bi.getRGB(x, y)+num>0xffffffff)
+					bi.setRGB(x, y, 0xffffffff); //有效位其实为后六位
+				else if(bi.getRGB(x, y)+num<0xff000000)
+					bi.setRGB(x, y, 0xff000000);
+				else
+					bi.setRGB(x, y, bi.getRGB(x, y)+num);
+			}
+		}
+		
+		File liner = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\LinerGrey.jpg");
+		ImageIO.write(bi,"jpg", liner);
+		
+		System.out.println("<Liner-Grey Finish!>");
 	}
+	
+	public void PowerGreyTransform (double n) throws IOException {
+		/*The differences between PowerGreyImage & PowerTranform is that, first one is between 0 and 1.*/
+		System.out.println("<Power-Grey Start!>");
+		
+		if(n<0) {
+			System.out.println("<Power-Grey error!>: n must greater than 0.");
+			System.exit(0);
+		}
+		
+		int x = 0;
+		int y = 0;
+		int Grey = 0;
+		
+		Greyed();
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {
+				Grey = (bi.getRGB(x, y) & 0x00ffffff) >> 16;
+			    Grey = (int)(Math.pow((double)Grey/0xff,n)*0xff);
+			    bi.setRGB(x, y, Grey+Grey*0x100+Grey*0x10000);
+			}
+		}
+		
+		File PowerGrey = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\PowerGrey.jpg");
+		ImageIO.write(bi, "jpg", PowerGrey);
+		
+		System.out.println("<Power-Grey Finished!>");
+	}
+	
 }

@@ -1,0 +1,24 @@
+/* Data: July/21st/2017
+ * Time: 18:23(UTC+8)
+ * Coder: Asp
+ * For What? To do some easy Image processing to help Asp understand a part of 
+ *           knowledge in Digital Image Processing......
+ *           And this part is mainly about Image Format Exchange.
+ * The Last Update Data: July/21st/2017, 18:23(UTC+8)
+ * */
+
+Mian 类在 ImageFormatTransform.java 中。
+
+Image Format Transform.java:
+1.图片的路径赋给了String变量 path, 修改所在的文件路径只需要修改变量 path 的赋值。
+2.根据提示输入 path 文件夹下的图片名。
+3.IP 是 ImageProcess 类的一个对象，通过调用 Image Process 类中的方法来完成对图片的操作。
+
+Preprocess.java:
+此类顾名思义是主要是包含一些预处理的方法和一些会高频使用的非图片处理类的方法，譬如写文件操作。
+
+ImageProcess.java:
+此类中包含图片的相关属性以及图片处理的方法。
+1.PowerTransform 方法的参数是double类型， 取值范围就是double类型的取值范围。
+2.LinerGreyTransform 方法的参数是int类型，取值范围理论上来说也是int的取值范围，但是为了让输入的值有意义，n 的绝对值最好不超过0xff即256。当n>0变亮，当n<0变暗。
+3.PowerGreyTransform 方法的参数是double类型，取值范围是大于零的双精度浮点数。当n>1变暗，当0<n<1变亮。

@@ -4,6 +4,7 @@
  * For What? To do some easy Image processing to help Asp understand a part of 
  *           knowledge in Digital Image Processing......
  *           And this part is mainly about Image Format Exchange.
+ * The Last Update Data: July/21st/2017, 18:23(UTC+8)
  * */
 
 
@@ -12,7 +13,7 @@ package project1;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ImageFormatChange {
+public class ImageFormatTransform {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -29,11 +30,12 @@ public class ImageFormatChange {
 		long t1 = System.currentTimeMillis();
 		
 		//IP.PrintImage();
-		//IP.InverseImage();
-		//IP.SquareImage(0.99999);
-		//IP.LogImage();
-		//IP.LinerLightenImage(15);
-		IP.GreyImage();
+		//IP.Inverse();
+		//IP.PowerTransform(0.99999);
+		//IP.LogTransform();
+		IP.LinerGreyTransform(-40); //if n>0, ligthen; if n<0, darken.
+		//IP.GreyImage();
+		IP.PowerGreyTransform(1.2); //if n>1, darken; if 0<n<1, ligthen.
 	
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		

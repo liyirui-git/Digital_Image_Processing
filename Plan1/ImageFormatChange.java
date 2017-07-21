@@ -30,8 +30,9 @@ public class ImageFormatChange {
 		
 		//IP.PrintImage();
 		//IP.InverseImage();
-		IP.SquareImage(0.99999);
+		//IP.SquareImage(0.99999);
 		//IP.LogImage();
+		IP.LightenImage(10);
 	
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		

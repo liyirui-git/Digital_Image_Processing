@@ -103,8 +103,8 @@ public class ImageProcess {
 			}
 		}
 		
-		File inverse = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Inversed.jpg");
-		ImageIO.write(bi,"png", inverse);
+		File square = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Squared.jpg");
+		ImageIO.write(bi,"jpg", square);
 		
 		System.out.println("<Square Finish!>");
 	}
@@ -124,9 +124,56 @@ public class ImageProcess {
 			}
 		}
 		
-		File inverse = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Inversed.jpg");
-		ImageIO.write(bi,"jpg", inverse);
+		File log = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Loged.jpg");
+		ImageIO.write(bi,"jpg", log);
 		
 		System.out.println("<Log Finish!>");
+	}
+	
+	public void LightenImage(int n) throws IOException {
+		System.out.println("<Lighten Start!>");
+		
+		int x = 0;
+		int y = 0;
+		int num = 0;
+		
+		for(int i = 0; i<n; i++) {
+			num+=0x10101;
+		}
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {		
+				//Image inverse processing
+				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
+				if(bi.getRGB(x, y)+num>0xffffffff)
+					bi.setRGB(x, y, (int)0xffffffff); //有效位其实为后六位
+				else
+					bi.setRGB(x, y, bi.getRGB(x, y)+num);
+			}
+		}
+		
+		File lighten = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Lighten.jpg");
+		ImageIO.write(bi,"jpg", lighten);
+		
+		System.out.println("<Lighten Finish!>");
+	}
+	
+	public void GreyImage() throws IOException {
+		
+		System.out.println("<Greyed Start!>");
+		
+		int blue_num;
+		int green_num;
+		int red_num;
+		
+		int x = 0;
+		int y = 0;
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {		
+				//Image inverse processing
+				//bi.setRGB(x, y, 0xffffffff-bi.getRGB(x, y)+0xff000000);
+			}
+		}
 	}
 }

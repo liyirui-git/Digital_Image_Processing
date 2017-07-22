@@ -144,7 +144,7 @@ public class ImageProcess {
 				green_num = (bi.getRGB(x, y) & 0x0000ff00) >> 8;
 				red_num = (bi.getRGB(x, y) & 0x00ff0000) >> 16;
 				grey =  (red_num*38 + green_num*75 + blue_num*15) >> 7;
-				bi.setRGB(x, y, grey+grey*0x100+grey*0x10000);
+				bi.setRGB(x, y, grey*0x10101);
 			}
 		}
 		
@@ -209,7 +209,7 @@ public class ImageProcess {
 			for(x=0; x<bi.getWidth(); x++) {
 				Grey = (bi.getRGB(x, y) & 0x00ffffff) >> 16;
 			    Grey = (int)(Math.pow((double)Grey/0xff,n)*0xff);
-			    bi.setRGB(x, y, Grey+Grey*0x100+Grey*0x10000);
+			    bi.setRGB(x, y, Grey*0x10101);
 			}
 		}
 		
@@ -217,6 +217,54 @@ public class ImageProcess {
 		ImageIO.write(bi, "jpg", PowerGrey);
 		
 		System.out.println("<Power-Grey Finished!>");
+	}
+	
+	public void HistogramEqualization () throws IOException {
+		System.out.println("<Histogram Equalization Start!>");
+		
+		Greyed();
+		
+		int x = 0;
+		int y = 0;
+		int Grey = 0;
+		int total = bi.getHeight()*bi.getWidth();
+		int [] mapping = new int [256];
+		int [] num = new int [256];
+		
+		for(int i=0; i<num.length; i++) {
+			mapping[i] = 0;
+			num[i] = 0;
+		}
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {
+				Grey = (bi.getRGB(x, y) & 0x00ffffff) >> 16;
+				num[Grey]++;
+			}
+		}
+		
+		for(int i=0; i<mapping.length; i++) {
+			double d = 0;
+			for(int j=0; j<=i; j++) {
+				d = d+(double)num[j]/total;
+			}
+			mapping[i] = (int) (d*0xff);
+			//System.out.println(Integer.toHexString(i)+"d:"+d);
+			//System.out.println(Integer.toHexString(i)+"mapping[]:"+mapping[i]);
+		}
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {
+				Grey = (bi.getRGB(x, y) & 0x00ffffff) >> 16;
+				Grey = mapping[Grey];
+				bi.setRGB(x, y, Grey*0x10101);
+			}
+		}
+		
+		File HE = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\HE.jpg");
+		ImageIO.write(bi, "jpg", HE);
+		
+		System.out.println("<Histogram Equalization Finished!>");
 	}
 	
 }

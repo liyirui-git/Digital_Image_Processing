@@ -4,7 +4,7 @@
  * For What? To do some easy Image processing to help Asp understand a part of 
  *           knowledge in Digital Image Processing......
  *           And this part is mainly about Image Format Exchange.
- * The Last Update Data: July/21st/2017, 18:23(UTC+8)
+ * The Last Update Data: July/22nd/2017, 15:28(UTC+8)
  * */
 
 
@@ -33,10 +33,12 @@ public class ImageFormatTransform {
 		//IP.Inverse();
 		//IP.PowerTransform(0.99999);
 		//IP.LogTransform();
-		IP.LinerGreyTransform(-40); //if n>0, ligthen; if n<0, darken.
+		//IP.LinerGreyTransform(-40); //if n>0, ligthen; if n<0, darken.
 		//IP.GreyImage();
-		IP.PowerGreyTransform(1.2); //if n>1, darken; if 0<n<1, ligthen.
-	
+		//IP.PowerGreyTransform(1.2); //if n>1, darken; if 0<n<1, ligthen.
+		
+		IP.HistogramEqualization();
+		
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		
 		scanner.close();

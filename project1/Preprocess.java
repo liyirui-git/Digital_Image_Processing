@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 public class Preprocess {
 	public static void Welcome() {
 	/*To print the welcome word for user and identified the user.*/
-		System.out.println("<<<<<<<<<<<< 	I'm waking up...	>>>>>>>>>>>>");
+		//	tgSystem.out.println("<<<<<<<<<<<< 	I'm waking up...	>>>>>>>>>>>>");
 		for(int i = 0; i<3; i++)
 			System.out.println("------------ 	 			------------");
 		System.out.println("------------ 	Edition: 0.0.1		------------");

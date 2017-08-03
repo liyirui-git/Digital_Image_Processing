@@ -26,6 +26,8 @@ public class ImageProcess {
 		this.bi = ImageIO.read(image);
 		
 		this.type = bi.getType();
+		
+		//System.out.println("Construct!");
 	}
 	
 	public void PrintImage() throws IOException {
@@ -249,8 +251,6 @@ public class ImageProcess {
 				d = d+(double)num[j]/total;
 			}
 			mapping[i] = (int) (d*0xff);
-			//System.out.println(Integer.toHexString(i)+"d:"+d);
-			//System.out.println(Integer.toHexString(i)+"mapping[]:"+mapping[i]);
 		}
 		
 		for(y=0; y<bi.getHeight(); y++) {
@@ -261,7 +261,7 @@ public class ImageProcess {
 			}
 		}
 		
-		File HE = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\HE.jpg");
+		File HE = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\HistogramEqualization.jpg");
 		ImageIO.write(bi, "jpg", HE);
 		
 		System.out.println("<Histogram Equalization Finished!>");

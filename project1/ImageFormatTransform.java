@@ -26,7 +26,8 @@ public class ImageFormatTransform {
 		System.out.println();
 		
 		
-		ImageProcess IP = new ImageProcess(path+FileName);
+		//ImageProcess IP = new ImageProcess(path+FileName);
+		Filter FT = new Filter(path+FileName);
 		long t1 = System.currentTimeMillis();
 		
 		//IP.PrintImage();
@@ -35,9 +36,10 @@ public class ImageFormatTransform {
 		//IP.LogTransform();
 		//IP.LinerGreyTransform(-40); //if n>0, ligthen; if n<0, darken.
 		//IP.GreyImage();
-		//IP.PowerGreyTransform(1.2); //if n>1, darken; if 0<n<1, ligthen.
+		//IP.PowerGreyTransform(0.2); //if n>1, darken; if 0<n<1, ligthen.
 		
-		IP.HistogramEqualization();
+		//IP.HistogramEqualization();
+		FT.ArithmeticAverage(3, 3);
 		
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		

@@ -11,7 +11,7 @@ public class Preprocess {
 		//	tgSystem.out.println("<<<<<<<<<<<< 	I'm waking up...	>>>>>>>>>>>>");
 		for(int i = 0; i<3; i++)
 			System.out.println("------------ 	 			------------");
-		System.out.println("------------ 	Edition: 0.0.1		------------");
+		System.out.println("------------ 	Edition: 0.0.2		------------");
 		for(int i = 0; i<3; i++)
 			System.out.println("------------ 	 			------------");
 		System.out.println("Hi! Mr.Asp!");

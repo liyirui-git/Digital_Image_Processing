@@ -75,7 +75,7 @@ public class Filter extends ImageProcess{
 	}
 	
 	public void StatisticalFilter (int type) throws IOException {
-		System.out.println("<Statistical Start!>");
+		System.out.println("<StatisticalFilter Start!>");
 		
 		if(type>4 || type<1) {
 			System.out.println("<Error>: illegal value of \"type\".");
@@ -110,36 +110,9 @@ public class Filter extends ImageProcess{
 					}
 				
 				//∂‘array≈≈–Ú
-				boolean f = true;
-				while(f) {
-					f = false;
-					for (int i=0; i<num-1; i++) {
-						if(array[i]>array[i+1]) {
-							int t = array[i];
-							array[i] = array[i+1];
-							array[i+1] = t;
-							f = true;
-						}
-					}
-				}
+				sort(array, num);
 				
-				if(type == 1) {
-					//select the medium one.
-					if(num%2==0) {
-						grey = (array[(num/2)-1] + array[num/2]) / 2;
-					} else {
-						grey = array[(num-1)/2];
-					}
-					
-				}else if (type == 2) {
-					//select the biggest one.
-					grey = array[num-1];
-				}else if (type == 3) {
-					//select the smallest one.
-					grey = array[0];
-				}else if (type == 4) {
-					grey = (array[0]+array[num-1])/2;
-				}
+				grey = select(type, array, num);
 				
 				ImageArray[x][y] = grey*0x10101;
 			}
@@ -149,9 +122,133 @@ public class Filter extends ImageProcess{
 			for(y=0; y<bi.getHeight(); y++)
 				bi.setRGB(x, y, ImageArray[x][y]);
 		
-		File S = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\Statistical.jpg");
+		File S = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\StatisticalFilter.jpg");
 		ImageIO.write(bi,"jpg", S);
 		
-		System.out.println("<Statistical Finish!>");
+		System.out.println("<StatisticalFilter Finish!>");
+	}
+	
+	public void AdaptiveFilter (int Mmax, int Nmax, int Mmin, int Nmin) throws IOException {
+		System.out.println("<AdaptiveFilter Start!>");
+		//Adaptive median filter
+
+		int [][] ImageArray = new int [bi.getWidth()][bi.getHeight()];
+		
+		int x, y;
+		
+		Greyed();
+		
+		for(y=0; y<bi.getHeight(); y++) {
+			for(x=0; x<bi.getWidth(); x++) {
+				int grey = AF_levelA(x, y, Mmin, Nmin, Mmax, Nmax);
+				ImageArray[x][y] = grey*0x10101;
+			}
+		}
+		
+		for(x=0; x<bi.getWidth(); x++)
+			for(y=0; y<bi.getHeight(); y++)
+				bi.setRGB(x, y, ImageArray[x][y]);
+		
+		File AF = Preprocess.CreatFile("C:\\My Document\\BUAA\\Lab Project\\AdaptiveFilter.jpg");
+		ImageIO.write(bi,"jpg", AF);
+		
+		System.out.println("<AdaptiveFilter Finish!>");
+	}
+	
+	public int AF_levelA(int x, int y, int Mmin, int Nmin, int Mmax, int Nmax) {
+		int num = 0;
+		int Zmin, Zmax, Zmed, Zxy;
+		int m1 = (Mmin-1)/2;
+		int n1 = (Nmin-1)/2;
+		int m2 = x-m1;
+		int n2 = y-n1;
+		int []array = new int[Mmin*Nmin];
+		
+		if(m2<0)
+			m2 = 0;
+		if(n2<0)
+			n2 = 0;
+		
+		Zxy = bi.getRGB(x, y);
+		
+		for(int i = m2; i<=x+m1 && i<bi.getWidth(); i++)
+			for(int j = n2; j<=y+n1 && j<bi.getHeight(); j++) {
+				array[num++] = (bi.getRGB(i, j) & 0x00ffffff) >> 16;
+			}
+		
+		sort(array, num);
+		
+		//select the medium one.
+		Zmed = select(1, array, num);
+		//select the biggest one.
+		Zmax = select(2, array, num);
+		//select the smallest one.
+		Zmin = select(3, array, num);
+		
+		int A1 = Zmed - Zmin;
+		int A2 = Zmed - Zmax;
+		
+		if(A1>0 && A2<0) {
+			return AF_levelB(Zxy, Zmin, Zmax, Zmed);
+		}else {
+			if(m1<=(Mmax-1)/2 && n1<=(Nmax-1)/2) {
+				m1++;
+				n1++;
+				Mmin = 2*m1+1;
+				Nmin = 2*n1+1;
+				return AF_levelA(x, y, Mmin, Nmin, Mmax, Nmax);
+			}else
+				return Zmed;
+		}
+	}
+	
+	public int AF_levelB(int Zxy, int Zmin, int Zmax, int Zmed) {
+		int B1 = Zxy - Zmin;
+		int B2 = Zxy - Zmax;
+		
+		if(B1>0 && B2<0)
+			return Zxy;
+		else
+			return Zmed;
+	}
+	
+	public int[] sort (int [] array, int num) {
+		
+		boolean f = true;
+		while(f) {
+			f = false;
+			for (int i=0; i<num-1; i++) {
+				if(array[i]>array[i+1]) {
+					int t = array[i];
+					array[i] = array[i+1];
+					array[i+1] = t;
+					f = true;
+				}
+			}
+		}
+		
+		return array;
+	}
+	
+	public int select (int type, int [] array, int num) {
+		if(type == 1) {
+			//select the medium one.
+			if(num%2==0) {
+				return (array[(num/2)-1] + array[num/2]) / 2;
+			} else {
+				return array[(num-1)/2];
+			}
+			
+		}else if (type == 2) {
+			//select the biggest one.
+			return array[num-1];
+		}else if (type == 3) {
+			//select the smallest one.
+			return array[0];
+		}else if (type == 4) {
+			return (array[0]+array[num-1])/2;
+		}else {
+			return 0;
+		}
 	}
 }

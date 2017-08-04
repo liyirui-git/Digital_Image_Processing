@@ -40,7 +40,8 @@ public class ImageFormatTransform {
 		
 		//IP.HistogramEqualization();
 		//FT.ArithmeticAverage();
-		FT.StatisticalFilter(4); //if type==1, is medium statistic; if type==2, is max-statistic; if type==3, is min-statistic; if type==4, is medial-point statistic.
+		//FT.StatisticalFilter(4); //if type==1, is medium statistic; if type==2, is max-statistic; if type==3, is min-statistic; if type==4, is medial-point statistic.
+		FT.AdaptiveFilter(7, 7, 3, 3);
 		
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		

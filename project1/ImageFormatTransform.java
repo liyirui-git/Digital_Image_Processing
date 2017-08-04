@@ -27,7 +27,7 @@ public class ImageFormatTransform {
 		
 		
 		//ImageProcess IP = new ImageProcess(path+FileName);
-		Filter FT = new Filter(path+FileName);
+		Filter FT = new Filter(path+FileName, 3, 3);
 		long t1 = System.currentTimeMillis();
 		
 		//IP.PrintImage();
@@ -39,7 +39,8 @@ public class ImageFormatTransform {
 		//IP.PowerGreyTransform(0.2); //if n>1, darken; if 0<n<1, ligthen.
 		
 		//IP.HistogramEqualization();
-		FT.ArithmeticAverage(3, 3);
+		//FT.ArithmeticAverage();
+		FT.StatisticalFilter(4); //if type==1, is medium statistic; if type==2, is max-statistic; if type==3, is min-statistic; if type==4, is medial-point statistic.
 		
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		

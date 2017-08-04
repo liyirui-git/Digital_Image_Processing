@@ -4,7 +4,7 @@
  * For What? To do some easy Image processing to help Asp understand a part of 
  *           knowledge in Digital Image Processing......
  *           And this part is mainly about Image Format Exchange.
- * The Last Update Data: July/22nd/2017, 15:28(UTC+8)
+ * The Last Update Data: August/3rd/2017, 20:52(UTC+8)
  * */
 
 Mian 类在 ImageFormatTransform.java 中。
@@ -22,3 +22,8 @@ ImageProcess.java:
 1.PowerTransform 方法的参数是double类型， 取值范围就是double类型的取值范围。
 2.LinerGreyTransform 方法的参数是int类型，取值范围理论上来说也是int的取值范围，但是为了让输入的值有意义，n 的绝对值最好不超过0xff即256。当n>0变亮，当n<0变暗。
 3.PowerGreyTransform 方法的参数是double类型，取值范围是大于零的双精度浮点数。当n>1变暗，当0<n<1变亮。
+
+Filter.java:
+此类继承了 ImageProcess 类，其中包含一些滤波器相关的方法。
+1.ArithmeticAverage 方法（算数均值滤波器）的参数是int类型且都大于零，子图窗口的大小为 m × n，而且满足 m 与 n 应当满足 2k + 1, k 属于自然数这一形式。否则会向下取近似运算。 
+2.StatisticalFilter 方法  （统计排序滤波器）的参数是int类型，其中，参数为1则使用中值滤波器， 参数为2则使用最大值滤波器，参数为3则使用最小值滤波器，参数为4则使用中点滤波器。

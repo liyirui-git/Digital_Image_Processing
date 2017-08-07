@@ -27,8 +27,8 @@ public class MainProcessing {
 		
 		
 		//ImageProcess IP = new ImageProcess(path+FileName);
-		//ImageFilter FT = new ImageFilter(path+FileName, 3, 3);
-		ImageSegmentation IS = new ImageSegmentation(path+FileName, 30);
+		ImageFilter FT = new ImageFilter(path+FileName, 3, 3);
+		//ImageSegmentation IS = new ImageSegmentation(path+FileName, 30);
 		long t1 = System.currentTimeMillis();
 		
 		//IP.PrintImage();
@@ -42,9 +42,9 @@ public class MainProcessing {
 		
 		//FT.ArithmeticAverage();
 		//FT.StatisticalFilter(4); //if type==1, is medium statistic; if type==2, is max-statistic; if type==3, is min-statistic; if type==4, is medial-point statistic.
-		//FT.AdaptiveFilter(7, 7, 3, 3);
+		FT.AdaptiveFilter(7, 7, 3, 3);
 		
-		IS.Prewitt();
+		//IS.Prewitt();
 		
 		System.out.println("\ntotal:"+(float)(System.currentTimeMillis()-t1)/1000+"s");
 		
